@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="https://lh3.googleusercontent.com/rd-gg-dl/AOI_d_8CCt-VQ18J8Yjj1WfBLr6KmXK2cXFs5xXK3WgdfCWns6mfhZI1R_Vq1mmXW4YW56tkwyr_54dkair-TdBMog6bUlEt6GrwGioPkrS8dtwL_lxnW6zjDyRX3r8m_ndkRKmtJUM-iiF3g4dScMqcd20N6CY5EUJEivWb6Z3OM3473deyKV2xottMrPhbgJwSNIL8Z7PzOLAaeE9pBgq-3ZaQk5TNHJvN7xqP38rw48Sr31lj94VtUyfg1xXktEleWUiIM9klK-7xwr8Hu20Q0d84z4HZh3h1S-Sxy_aNZ_Uf3Gl8hukNoTeJu5rkAr3BH786GK6ehe2bavZgszk6HqYj1vqzv-SH9OiE6BFSKXpcbBgKeGGqpvnlfROZjY_yeshRWkXVxTFViKhm9m6CfmEE_NR4Blo_32VLPEcUt_VG39-qgwD0FpozesA67muoyyPxbEoKeanGp32ymfU7ZaAeNTCWyTGlcTFcVNw3fyz9k24x5ZloRkzh8ww0pkjxquaiae9_aWwrTEHtZdb5dKe5ktrk8DyR9rJZiYY8TDNqGsX4CMbMkquydhudC1exbvnK2La_mihGwRB0FEbey6EFo0f3xf0X6o_-eOBWKNDXAdWBDaD8HT2i30Qy97tJ-zzlh-ntprJ75ZTQj1LYnQMPswbEes3Kljz4KUZnPQG1MlGZbGHEzX0jVYTeh7DbrncDxPSuZ9BoIUriNxR2FFbig7QKe0HZLM6uqv3JXpnVcSgMZY8Zq_zWFQrczsO82pFG7yu7-7kFCGFrcRU5mnPxJsYCiUvpcyPsVtN6ATVS9NaZh71IWflUKww-B8qVJMxgnUtc8a4QgYRUxujdPDtDPhFnUbQzhE7T34M0vEjN-IQ5qiK-eerymLCu-cDEAyT8m3E51aDXVeeGAJN0pFzkIgCV-IlVzPy4AJuouaR_QoO_rvHVVZPWF5ix4i5MHsWzble83QeTJ8RYeoPr_yHJR2AmL5lPB8hGYakEPYYij6GE9WJcRiSdTP6beqCNEA61_uc2jLHK0ONdIsC5ZPzV3IlzxXgS_cLLE6VHn16UjO6W9wglYzWttVWAVpDTqfnwAhfYuyE6ZJ0udBXtz-z_xhMzgMd6VJMA_Ohq-9K1BnwNvmTLzJgIzINyaZfdRy6KUB6fdl0VFspBCF5OjrBT25_P456DYH2Z_H1lkrDL1Z36g2jyBnFSHzjTHjHVVi-hgPiRcW-mgsb7mwpjhuypUYNFvrR4nFtgjJHbEYeAd8ebosAYaTAerMg=s1024-rj" alt="Contour Logo" width="120" height="120">
+  <img src="./assets/images/contour.jpg" alt="Contour Logo" width="120" height="120">
 </p>
 
 <h1 align="center">Contour</h1>
 
 <p align="center">
-  <strong>Shape your API mocks from OpenAPI specs</strong>
+  <strong>Instantly spin up type-safe API mocks from your contracts</strong>
 </p>
 
 <p align="center">
@@ -14,13 +14,6 @@
   <a href="https://codecov.io/gh/trillionclues/contour"><img src="https://codecov.io/gh/trillionclues/contour/branch/main/graph/badge.svg" alt="Coverage"></a>
   <a href="https://github.com/trillionclues/contour/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/contour" alt="License"></a>
 </p>
-
-<p align="center">
-  Professional API mock server from OpenAPI specifications.<br>
-  Zero configuration. Realistic data. Production-ready.
-</p>
-
----
 
 ## Quick Start
 
@@ -34,7 +27,6 @@ contour start openapi.yaml
 
 Your mock API is now running at `http://localhost:3001` with realistic, type-safe responses.
 
----
 
 ## Why Contour?
 
@@ -45,8 +37,6 @@ Your mock API is now running at `http://localhost:3001` with realistic, type-saf
 | OpenAPI 3.x | Full support | Partial |
 | Startup time | <1 second | Slow |
 | Offline mode | Cached specs | Online only |
-
----
 
 ## Installation
 
@@ -63,11 +53,7 @@ pnpm add -D contour
 
 **Requirements:** Node.js >= 18.0.0
 
----
-
 ## Usage
-
-### Basic
 
 ```bash
 # Local file
@@ -75,6 +61,8 @@ contour start ./api/openapi.yaml
 
 # Remote URL
 contour start https://api.example.com/openapi.json
+# or
+contour start test-service.eks-bytedance.com/swagger-ui/index.html
 ```
 
 ### Options
@@ -92,8 +80,6 @@ Options:
   -h, --help                Show help
 ```
 
-### Examples
-
 ```bash
 # Custom port with latency simulation
 contour start api.yaml --port 4000 --delay 100-300
@@ -108,9 +94,7 @@ contour start api.yaml --stateful
 contour start api.yaml --error-rate 15 --delay 500-2000
 ```
 
----
-
-## OpenAPI Extensions
+### OpenAPI Extensions
 
 Customize mock behavior with `x-contour-*` extensions in your spec:
 
@@ -122,9 +106,8 @@ Customize mock behavior with `x-contour-*` extensions in your spec:
     x-contour-deterministic: true  # Consistent data for this endpoint
 ```
 
----
 
-## Cache Management
+### Cache Management
 
 ```bash
 # List cached specs
@@ -134,11 +117,9 @@ contour cache list
 contour cache clear
 ```
 
----
+### Framework Integration
 
-## Framework Integration
-
-### Next.js
+#### Next.js
 
 ```json
 // package.json
@@ -150,7 +131,7 @@ contour cache clear
 }
 ```
 
-### Vite
+#### Vite
 
 ```javascript
 // vite.config.js
@@ -163,8 +144,6 @@ export default defineConfig({
 });
 ```
 
----
-
 ## Documentation
 
 - [Architecture](./docs/01-ARCHITECTURE.md)
@@ -172,8 +151,6 @@ export default defineConfig({
 - [API Integration](./docs/03-API-INTEGRATION.md)
 - [Data Generation](./docs/04-DATA-GENERATION.md)
 - [Testing](./docs/05-TESTING.md)
-
----
 
 ## Contributing
 
