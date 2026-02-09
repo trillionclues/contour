@@ -1,8 +1,6 @@
 <p align="center">
-  <img src="./assets/images/contour.jpg" alt="Contour Logo" width="150" height="150">
+  <img src="./assets/images/contour.jpg" alt="Contour Logo" width="300" height="300">
 </p>
-
-<h1 align="center">Contour</h1>
 
 <p align="center">
   <strong>Instantly spin up type-safe API mocks from your contracts</strong>
@@ -86,7 +84,13 @@ contour start api.yaml --stateful
 contour start api.yaml --error-rate 15 --delay 500-2000
 ```
 
-### OpenAPI Extensions
+```bash
+# List cached specs
+contour cache list
+
+# Clear all cached specs
+contour cache clear
+```
 
 Customize mock behavior with `x-contour-*` extensions in your spec:
 
@@ -96,17 +100,6 @@ Customize mock behavior with `x-contour-*` extensions in your spec:
     x-contour-count: 20        # Generate 20 items instead of default 5
     x-contour-delay: 1000      # Always 1s delay for this endpoint
     x-contour-deterministic: true  # Consistent data for this endpoint
-```
-
-
-### Cache Management
-
-```bash
-# List cached specs
-contour cache list
-
-# Clear all cached specs
-contour cache clear
 ```
 
 ### Framework Integration
