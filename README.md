@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/images/contour.jpg" alt="Contour Logo" width="120" height="120">
+  <img src="./assets/images/contour.jpg" alt="Contour Logo" width="150" height="150">
 </p>
 
 <h1 align="center">Contour</h1>
@@ -18,8 +18,14 @@
 ## Quick Start
 
 ```bash
-# Install globally
+# Install globally pnpm (recommended)
 pnpm add -g contour
+
+# npm
+npm install -g contour
+
+# Local project scope
+pnpm add -D contour
 
 # Start mock server from your OpenAPI spec
 contour start openapi.yaml
@@ -38,21 +44,6 @@ Your mock API is now running at `http://localhost:3001` with realistic, type-saf
 | Startup time | <1 second | Slow |
 | Offline mode | Cached specs | Online only |
 
-## Installation
-
-```bash
-# pnpm (recommended)
-pnpm add -g contour
-
-# npm
-npm install -g contour
-
-# Local project
-pnpm add -D contour
-```
-
-**Requirements:** Node.js >= 18.0.0
-
 ## Usage
 
 ```bash
@@ -64,6 +55,7 @@ contour start https://api.example.com/openapi.json
 # or
 contour start test-service.eks-bytedance.com/swagger-ui/index.html
 ```
+**Requirements:** Node.js >= 18.0.0
 
 ### Options
 
