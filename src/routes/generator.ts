@@ -1,10 +1,12 @@
-// Route Generator - Convert OpenAPI paths to Express routes
+// Route Generator to convert OpenAPI paths to Express routes
 
 import type { Router, Request, Response } from 'express';
 import { Router as createRouter } from 'express';
 import type { OpenAPISpec, Operation, Config } from '../types/index.js';
 import { generateData, initDataGenerator } from '../generator/index.js';
 import { resolveSchema } from '../generator/schema-parser.js';
+import { initGenerator } from '../generator/faker-adapter.js';
+import { validateRequestBody } from './validator.js';
 import { stateManager } from '../state/index.js';
 import { logger } from '../utils/logger.js';
 import { faker } from '@faker-js/faker';
@@ -63,6 +65,13 @@ function createHandler(
 ) {
     return (req: Request, res: Response) => {
         try {
+            // x-contour-deterministic: seed faker for this endpoint
+            if (operation['x-contour-deterministic']) {
+                const seedStr = `${path}:${method}`;
+                const seed = Array.from(seedStr).reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+                initGenerator(seed);
+            }
+
             const successCode = method === 'post' ? '201' : '200';
             const response = operation.responses[successCode] || operation.responses['200'] || operation.responses['default'];
 
@@ -74,6 +83,17 @@ function createHandler(
 
             // resolve schema
             const schema = content?.schema ? resolveSchema(content.schema, spec) : null;
+
+            // request body validation for write methods
+            if ((method === 'post' || method === 'put' || method === 'patch') && req.body && Object.keys(req.body).length > 0) {
+                const validation = validateRequestBody(req.body, operation, spec);
+                if (!validation.valid) {
+                    return res.status(400).json({
+                        error: 'Validation failed',
+                        details: validation.errors,
+                    });
+                }
+            }
 
             // stateful mode
             if (config.stateful) {
@@ -152,10 +172,27 @@ function createHandler(
                 return res.json({});
             }
 
-            const data = generateData(schema) as Record<string, unknown>;
+            const sendResponse = (statusCode: number, body: unknown) => {
+                const perEndpointDelay = operation['x-contour-delay'];
+                if (perEndpointDelay && perEndpointDelay > 0) {
+                    setTimeout(() => res.status(statusCode).json(body), perEndpointDelay);
+                } else {
+                    res.status(statusCode).json(body);
+                }
+            };
+
+            // apply x-contour-count to override array size
+            let data = generateData(schema) as Record<string, unknown>;
+            if (Array.isArray(data) && operation['x-contour-count']) {
+                const targetCount = operation['x-contour-count'];
+                while (data.length < targetCount) {
+                    data.push(generateData(schema.items ?? schema) as Record<string, unknown>);
+                }
+                data = data.slice(0, targetCount) as unknown as Record<string, unknown>;
+            }
 
             // handle path parameters - inject into response
-            if (req.params && typeof data === 'object' && data !== null) {
+            if (req.params && typeof data === 'object' && data !== null && !Array.isArray(data)) {
                 for (const [key, value] of Object.entries(req.params)) {
                     if (key === 'id' || key.endsWith('Id')) {
                         data.id = value;
@@ -164,17 +201,17 @@ function createHandler(
             }
 
             // for POST, in stateless mode, just mirror the body + generated data
-            if (method === 'post' && req.body && typeof data === 'object') {
+            if (method === 'post' && req.body && typeof data === 'object' && !Array.isArray(data)) {
                 Object.assign(data, req.body);
-                return res.status(201).json(data);
+                return sendResponse(201, data);
             }
 
             // for PUT/PATCH, merge request body
-            if ((method === 'put' || method === 'patch') && req.body && typeof data === 'object') {
+            if ((method === 'put' || method === 'patch') && req.body && typeof data === 'object' && !Array.isArray(data)) {
                 Object.assign(data, req.body);
             }
 
-            return res.json(data);
+            return sendResponse(200, data);
         } catch (error) {
             logger.error('Error generating response', error);
             return res.status(500).json({

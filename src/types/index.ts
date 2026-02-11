@@ -159,4 +159,5 @@ export interface GenerationContext {
     depth: number;
     index?: number;
     seed?: number;
+    propertyName?: string;
 }

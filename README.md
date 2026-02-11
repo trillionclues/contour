@@ -52,6 +52,9 @@ contour start ./api/openapi.yaml
 contour start https://api.example.com/openapi.json
 # or
 contour start test-service.eks-bytedance.com/swagger-ui/index.html
+# or test sample usage
+pnpm exec tsx src/cli/index.ts start examples/sample-api.yaml
+curl http://localhost:3001/users
 ```
 **Requirements:** Node.js >= 18.0.0
 
@@ -97,9 +100,9 @@ Customize mock behavior with `x-contour-*` extensions in your spec:
 ```yaml
 /users:
   get:
-    x-contour-count: 20        # Generate 20 items instead of default 5
-    x-contour-delay: 1000      # Always 1s delay for this endpoint
-    x-contour-deterministic: true  # Consistent data for this endpoint
+    x-contour-count: 20        # Overrides generated array size (pads or trims generated arrays)
+    x-contour-delay: 1000      # Adds per-endpoint latency via setTimeout wrapper
+    x-contour-deterministic: true  # Seeds consistent faker data with a stable hash per endpoint
 ```
 
 ### Framework Integration

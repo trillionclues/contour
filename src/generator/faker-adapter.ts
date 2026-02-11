@@ -17,7 +17,7 @@ export function initGenerator(seed?: number): void {
 
 export function generateFromSchema(
     schema: Schema,
-    context: GenerationContext = { path: [], depth: 0 }
+    context: GenerationContext = { path: [], depth: 0, propertyName: '' }
 ): unknown {
     if (schema.example !== undefined) {
         return schema.example;
@@ -51,7 +51,7 @@ export function generateFromSchema(
 
     switch (schema.type) {
         case 'string':
-            return generateString(schema);
+            return generateString(schema, context.propertyName);
         case 'number':
         case 'integer':
             return generateNumber(schema);
@@ -67,7 +67,8 @@ export function generateFromSchema(
     }
 }
 
-function generateString(schema: Schema): string {
+function generateString(schema: Schema, propertyName: string = ''): string {
+    // format takes priority
     switch (schema.format) {
         case 'uuid':
             return faker.string.uuid();
@@ -99,24 +100,18 @@ function generateString(schema: Schema): string {
     }
 
     if (schema.pattern) {
-        // Simple pattern handling - for complex patterns, use randexp
         return faker.lorem.word();
+    }
+
+    // property-name heuristics: infer realistic data from the key name
+    const key = propertyName.toLowerCase();
+    const heuristic = getHeuristicForProperty(key);
+    if (heuristic) {
+        return heuristic();
     }
 
     const minLength = schema.minLength ?? 1;
     const maxLength = schema.maxLength ?? 50;
-
-    // Heuristic: use common field names
-    const fieldName = schema.example?.toString() ?? '';
-    if (fieldName.toLowerCase().includes('name')) {
-        return faker.person.fullName();
-    }
-    if (fieldName.toLowerCase().includes('phone')) {
-        return faker.phone.number();
-    }
-    if (fieldName.toLowerCase().includes('address')) {
-        return faker.location.streetAddress();
-    }
 
     let value = faker.lorem.words({ min: 1, max: 5 });
 
@@ -128,6 +123,67 @@ function generateString(schema: Schema): string {
     }
 
     return value.trim();
+}
+
+function getHeuristicForProperty(key: string): (() => string) | null {
+    // exact matches first
+    const exactMap: Record<string, () => string> = {
+        firstname: () => faker.person.firstName(),
+        first_name: () => faker.person.firstName(),
+        lastname: () => faker.person.lastName(),
+        last_name: () => faker.person.lastName(),
+        fullname: () => faker.person.fullName(),
+        full_name: () => faker.person.fullName(),
+        username: () => faker.internet.userName(),
+        email: () => faker.internet.email({ provider: 'example.com' }),
+        phone: () => faker.phone.number(),
+        phonenumber: () => faker.phone.number(),
+        phone_number: () => faker.phone.number(),
+        avatar: () => faker.image.avatar(),
+        image: () => faker.image.url(),
+        photo: () => faker.image.url(),
+        picture: () => faker.image.url(),
+        city: () => faker.location.city(),
+        state: () => faker.location.state(),
+        country: () => faker.location.country(),
+        zipcode: () => faker.location.zipCode(),
+        zip_code: () => faker.location.zipCode(),
+        zip: () => faker.location.zipCode(),
+        street: () => faker.location.street(),
+        company: () => faker.company.name(),
+        companyname: () => faker.company.name(),
+        company_name: () => faker.company.name(),
+        title: () => faker.person.jobTitle(),
+        jobtitle: () => faker.person.jobTitle(),
+        job_title: () => faker.person.jobTitle(),
+        bio: () => faker.lorem.paragraph(),
+        description: () => faker.lorem.paragraph(),
+        summary: () => faker.lorem.sentence(),
+        content: () => faker.lorem.paragraphs(2),
+        website: () => faker.internet.url(),
+        url: () => faker.internet.url(),
+        color: () => faker.color.human(),
+        currency: () => faker.finance.currencyCode(),
+        iban: () => faker.finance.iban(),
+        status: () => faker.helpers.arrayElement(['active', 'inactive', 'pending']),
+    };
+
+    if (exactMap[key]) return exactMap[key];
+
+    // partial / suffix matches
+    if (key === 'name' || key.endsWith('name') || key.endsWith('_name')) return () => faker.person.fullName();
+    if (key.includes('phone')) return () => faker.phone.number();
+    if (key.includes('email')) return () => faker.internet.email({ provider: 'example.com' });
+    if (key.includes('address') || key.includes('street')) return () => faker.location.streetAddress();
+    if (key.includes('city')) return () => faker.location.city();
+    if (key.includes('country')) return () => faker.location.country();
+    if (key.includes('avatar') || key.includes('image') || key.includes('photo')) return () => faker.image.url();
+    if (key.includes('url') || key.includes('website') || key.includes('link')) return () => faker.internet.url();
+    if (key.includes('description') || key.includes('bio') || key.includes('about')) return () => faker.lorem.paragraph();
+    if (key.includes('title')) return () => faker.person.jobTitle();
+    if (key.includes('company')) return () => faker.company.name();
+
+    return null;
 }
 
 function generateNumber(schema: Schema): number {
@@ -187,6 +243,7 @@ function generateObject(
                 ...context,
                 path: [...context.path, key],
                 depth: context.depth + 1,
+                propertyName: key,
             });
         }
     }

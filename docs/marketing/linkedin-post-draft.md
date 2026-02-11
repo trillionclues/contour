@@ -24,3 +24,22 @@ Check it out on GitHub (still in progress):
 👉 https://lnkd.in/dW498xQA
 
 #OpenSource #OpenAPI #BuildInPublic #Testing #ContourCLI
+
+
+Area	Status	Files
+CLI (start, cache, version)	✅ Complete	src/cli/
+Spec Loader (local + remote + cache)	✅ Complete	src/loader/
+Swagger 2.0 → OpenAPI 3.x conversion	✅ Complete	src/loader/validator.ts
+Route generation (path → Express)	✅ Core done	src/routes/generator.ts
+Data generation (string, number, bool, array, object)	✅ Core done	src/generator/faker-adapter.ts
+Format handlers (uuid, email, date-time, ipv4, etc.)	✅ Inline in faker-adapter	src/generator/faker-adapter.ts
+Schema resolution ($ref, nested)	✅ Complete	src/generator/schema-parser.ts
+Stateful CRUD mode (--stateful)	✅ Complete	src/state/index.ts
+Error rate simulation (--error-rate)	✅ Complete	src/server/middleware/error-rate.ts
+Delay simulation (--delay)	✅ Complete	src/server/middleware/delay.ts
+Auth simulation (--require-auth)	✅ Complete	src/server/middleware/auth.ts
+CORS middleware	✅ Complete	src/server/middleware/cors.ts
+Request logger middleware	✅ Complete	src/server/middleware/logger.ts
+Error handling (custom errors, 404)	✅ Complete	src/server/middleware/error-handler.ts
+Deterministic mode (--deterministic)	✅ Complete	src/generator/index.ts
+CI/CD workflows	✅ Complete	.github/workflows/
