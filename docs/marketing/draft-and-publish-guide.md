@@ -43,3 +43,31 @@ Request logger middleware	✅ Complete	src/server/middleware/logger.ts
 Error handling (custom errors, 404)	✅ Complete	src/server/middleware/error-handler.ts
 Deterministic mode (--deterministic)	✅ Complete	src/generator/index.ts
 CI/CD workflows	✅ Complete	.github/workflows/
+
+
+
+1. pnpm pack --dry-run => to verify exactly what would be published
+2. pnpm publish --dry-run => to verify exactly what would be published
+3. pnpm publish => to publish
+4. npm login          # if not already logged in
+5. npm publish --otp=<your-otp-code>        # prepublishOnly will auto-run build + tests
+6. Set the token directly in your project's
+   .npmrc: echo "//registry.npmjs.org/:_authToken=npm_aqlpeOSnZm....." > ~/.npmrc
+7. npm publish --access public
+
+// Use the built-in npm version command to publish new changes
+# Patch release (1.0.0 → 1.0.1) — bug fixes
+npm version patch
+
+# Minor release (1.0.0 → 1.1.0) — new features
+npm version minor
+
+# Major release (1.0.0 → 2.0.0) — breaking changes
+npm version major
+
+// Example
+git add .
+git commit -m "feat: add pagination support"
+npm version minor          # bumps 1.0.0 → 1.1.0, commits, tags
+npm publish --access public
+git push && git push --tags

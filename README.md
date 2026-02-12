@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/images/contour.jpg" alt="Contour Logo" width="300" height="300">
+  <img src="./assets/images/contour.jpg" alt="Contour Logo" width="500" height="500">
 </p>
 
 <p align="center">
@@ -16,14 +16,17 @@
 ## Quick Start
 
 ```bash
-# Install globally pnpm (recommended)
-pnpm add -g contour
+# Install globally with pnpm (recommended)
+pnpm add -g @trillionclues/contour
 
 # npm
-npm install -g contour
+npm install -g @trillionclues/contour
 
 # Local project scope
-pnpm add -D contour
+pnpm add -D @trillionclues/contour
+
+# Or run directly with npx
+npx @trillionclues/contour start openapi.yaml
 
 # Start mock server from your OpenAPI spec
 contour start openapi.yaml
