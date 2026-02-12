@@ -1,31 +1,27 @@
-# LinkedIn Post Draft
+A few weeks ago I shared Contour — a CLI tool that spins up mock APIs from your OpenAPI spec. Since then, I've shipped the first stable release.
 
-I'm excited to share Contour - a new open-source CLI tool I'm been building to solve the "missing/failing API" problem for developers.
+What's in v1.0.0:
 
-There's always that stage in the SDLC where:
-> Waiting for backend APIs to be ready
-> Hardcoding JSON responses that go stale
-> Battling with complex mock server configs
-> Dealing with unrealistic dummy data
+🔹 Published to npm — npm i -g @trillionclues/contour
+🔹 Smart data generation for matching field names to produce realistic values using Faker.js heuristics
+🔹 Request body validation — POST/PUT/PATCH payloads are validated against your schema
+🔹 x-contour extensions — control array sizes, per-route latency, and deterministic seeding directly in your spec
+🔹 Stateful CRUD — --stateful flag gives you in-memory POST → GET → DELETE without a database
+🔹 Chaos testing — --error-rate 15 --delay 500-2000 simulates flaky backends
 
-Contour changes this in a way. It analyzes your OpenAPI/Swagger spec and instantly spins up a production-level mock server.
+You can get started in one line:
 
-What's different to MSW:
-1. Zero config, just run contour start openapi.yaml. No config files needed.
-2. Uses faker.js to generate context-aware realistic data based on your schema.
-3. Apply stateful mode with the --stateful flag to POST/PUT/DELETE data in-memory, either for a CRUD or E2E test.
-4. Supports chaos engineering, to simulate 500 errors or slow networks, add the with `--error-rate` and `--delay` flags.
+npx @trillionclues/contour start openapi.yaml
 
-Curreently works with local files but should be able to support remote URLs (even directly from Swagger UI!).
+npm: https://www.npmjs.com/package/@trillionclues/contour
+GitHub: https://github.com/trillionclues/contour
 
-I am building this because existing tools like MSW often required extra setup and don't handle dynamic scenerios well. Now I just spin up a valid API response seconds all throught the CLI.
+Would love feedback — what features would make this more useful for your workflow?
 
-Check it out on GitHub (still in progress):
-👉 https://lnkd.in/dW498xQA
-
-#OpenSource #OpenAPI #BuildInPublic #Testing #ContourCLI
+#OpenSource #OpenAPI #BuildInPublic #ContourCLI
 
 
+<!--   -->
 Area	Status	Files
 CLI (start, cache, version)	✅ Complete	src/cli/
 Spec Loader (local + remote + cache)	✅ Complete	src/loader/
@@ -46,6 +42,14 @@ CI/CD workflows	✅ Complete	.github/workflows/
 
 
 
+<!--  -->
+How Stateful Mode Works
+Stateful mode uses an in-memory key-value store keyed by endpoint path. When you POST to /users, the response body gets stored in a Map. Subsequent GETs read from that Map, PUTs replace entries, and DELETEs remove them — so you get full CRUD behavior without a database. When the server stops, the state is gone.
+
+It's basically a Map<string, Array<object>> that acts as a per-resource data store. Each route handler checks if stateful mode is on — if so, it reads/writes to the store instead of generating fresh data every time.
+
+
+<!-- deployment workflow -->
 1. pnpm pack --dry-run => to verify exactly what would be published
 2. pnpm publish --dry-run => to verify exactly what would be published
 3. pnpm publish => to publish
