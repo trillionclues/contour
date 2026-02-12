@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" href="images/favicon.svg" type="image/png">
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
 </head>
@@ -71,7 +71,7 @@
                         <span class="dot dot-yellow"></span>
                         <span class="dot dot-green"></span>
                     </div>
-                    <span class="terminal-title">terminal</span>
+                    <span class="terminal-title"></span>
                     <button class="terminal-copy"
                         data-copy="npm install -g @trillionclues/contour && contour start openapi.yaml"
                         title="Copy command">
@@ -82,39 +82,8 @@
                         </svg>
                     </button>
                 </div>
-                <div class="terminal-body">
-                    <div class="line"><span class="prompt">$</span> <span class="cmd">npm install -g
-                            @trillionclues/contour</span></div>
-                    <div class="line"><span class="success">✔</span> <span class="dim">Installed successfully</span>
-                    </div>
-                    <div class="line"></div>
-                    <div class="line"><span class="prompt">$</span> <span class="cmd">contour start openapi.yaml</span>
-                    </div>
-                    <div class="line"></div>
-                    <div class="line"><span class="cyan bold"> ⬡ Contour</span></div>
-                    <div class="line"><span class="dim"> Shape your API mocks from OpenAPI specs</span></div>
-                    <div class="line"></div>
-                    <div class="line"><span class="success">✓</span> <span class="bold">Mock server running</span></div>
-                    <div class="line"></div>
-                    <div class="line"> <span class="dim">→</span> Local: <span class="cyan">http://localhost:3001</span>
-                    </div>
-                    <div class="line"> <span class="dim">→</span> Endpoints: <span class="yellow">8</span></div>
-                    <div class="line"></div>
-                    <div class="line"><span class="dim"> Press Ctrl+C to stop</span></div>
-                    <div class="line"></div>
-                    <div class="line"><span class="prompt">$</span> <span class="cmd">curl
-                            http://localhost:3001/users</span></div>
-                    <!-- <div class="line"><span class="cyan">[</span></div>
-                    <div class="line"> <span class="cyan">{</span></div>
-                    <div class="line"> <span class="magenta">"id"</span>: <span class="yellow">"a1b2c3d4"</span>,</div>
-                    <div class="line"> <span class="magenta">"name"</span>: <span class="yellow">"Sarah Chen"</span>,
-                    </div>
-                    <div class="line"> <span class="magenta">"email"</span>: <span
-                            class="yellow">"sarah.chen@gmail.com"</span>,</div>
-                    <div class="line"> <span class="magenta">"phone"</span>: <span class="yellow">"(555)
-                            342-8190"</span></div>
-                    <div class="line"> <span class="cyan">}</span></div>
-                    <div class="line"><span class="cyan">]</span></div> -->
+                <div class="terminal-body" id="hero-terminal-body">
+                    <!-- Animation will populate this -->
                 </div>
             </div>
         </div>
@@ -231,7 +200,7 @@
     <section class="how-it-works" id="how-it-works">
         <div class="container">
             <h2 class="section-title">One command. That's it!</h2>
-            <p class="section-subtitle">Zero config files. Zero setup. Just your terminal.</p>
+            <p class="section-subtitle">Zero config files. Zero setup. Just your terminal 😁</p>
 
             <div class="steps">
                 <div class="step step-right fade-in">
@@ -326,7 +295,7 @@
     <section class="install-section" id="install">
         <div class="container">
             <h2 class="section-title">Get started in seconds</h2>
-            <p class="section-subtitle">Install the CLI globally and you're good to go 🚀</p>
+            <p class="section-subtitle">Install the CLI globally or locally and you're good to go 🚀</p>
 
             <div class="install-block">
                 <div class="install-tabs">
@@ -415,7 +384,10 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 contour — MIT License &nbsp;·&nbsp; Built for developers who ship fast.</p>
+            <p>© 2026 Contour — MIT License
+                <span class="interpunct">&nbsp;·&nbsp;</span>
+                <span class="footer-bottom-span">Built for developers who ship fast 🚀</span>
+            </p>
         </div>
     </footer>
 
