@@ -11,17 +11,17 @@
     --bg-card: #111114;
     --bg-terminal: #0d0d10;
     --border: #1a1a2e;
-    --border-highlight: #22d3ee33;
+    --border-highlight: #F2E3BB33;
     --text: #e4e4e7;
     --text-dim: #71717a;
     --text-muted: #52525b;
-    --accent: #22d3ee;
-    --accent-glow: #22d3ee22;
+    --accent: #F2E3BB;
+    --accent-glow: #F2E3BB22;
     --green: #22c55e;
-    --yellow: #eab308;
+    --yellow: #C0B87A;
     --red: #ef4444;
     --magenta: #c084fc;
-    --cyan: #22d3ee;
+    --cyan: #F2E3BB;
     --font-heading: 'Outfit', sans-serif;
     --font-body: 'Inter', -apple-system, sans-serif;
     --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
@@ -203,7 +203,7 @@ body::before {
 }
 
 .hero-accent {
-    background: linear-gradient(135deg, var(--accent), #06b6d4);
+    background: linear-gradient(135deg, var(--accent), var(--yellow));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -243,7 +243,7 @@ body::before {
 }
 
 .btn-primary:hover {
-    background: #00ccb7;
+    background: var(--yellow);
     color: #0a0a0b;
     box-shadow: 0 0 24px var(--accent-glow);
 }
@@ -476,7 +476,7 @@ body::before {
 }
 
 .feature-card:hover {
-    border-color: rgba(0, 229, 204, 0.2);
+    border-color: var(--border-highlight);
     transform: translateY(-2px);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
 }
