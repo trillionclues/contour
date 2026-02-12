@@ -1,22 +1,21 @@
-A few weeks ago I shared Contour — a CLI tool that spins up mock APIs from your OpenAPI spec. Since then, I've shipped the first stable release.
+A few days ago I shared Contour — a CLI tool that spins up mock APIs from your OpenAPI spec. Since then, I've shipped the first stable release.
 
-What's in v1.0.0:
+What's in v1.0.1:
 
-🔹 Published to npm — npm i -g @trillionclues/contour
-🔹 Smart data generation for matching field names to produce realistic values using Faker.js heuristics
-🔹 Request body validation — POST/PUT/PATCH payloads are validated against your schema
-🔹 x-contour extensions — control array sizes, per-route latency, and deterministic seeding directly in your spec
-🔹 Stateful CRUD — --stateful flag gives you in-memory POST → GET → DELETE without a database
-🔹 Chaos testing — --error-rate 15 --delay 500-2000 simulates flaky backends
+> Smart data generation with matching field names to produce realistic values using FakerJs heuristics
 
-You can get started in one line:
+> Request body validation and POST/PUT/PATCH payloads are validated against your schema
 
-npx @trillionclues/contour start openapi.yaml
+> x-contour extension tags control array sizes, per-route latency, and deterministic seeding directly in your spec
 
-npm: https://www.npmjs.com/package/@trillionclues/contour
-GitHub: https://github.com/trillionclues/contour
+> Stateful CRUD implementation ensures stateful flag gives you in-memory POST → GET → DELETE without a database
 
-Would love feedback — what features would make this more useful for your workflow?
+> Chaos testing with error-rate and delay to simulate flaky backends
+
+NPM: https://lnkd.in/dwqU6vqp
+GitHub: https://lnkd.in/dW498xQA
+
+Would appreciate your feedback — what features would make this more useful for your current workflow?
 
 #OpenSource #OpenAPI #BuildInPublic #ContourCLI
 
