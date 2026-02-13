@@ -29,6 +29,7 @@ npx @trillionclues/contour start openapi.yaml
 ```bash
 contour start ./api/openapi.yaml          # local file
 contour start https://example-openapi.com/api.json  # remote URL
+contour start curl -s http://127.0.0.1:3001/pet/findByStatus?status=pending | jq '.'   # Swagger UI page
 ```
 
 Your mock API is running at `http://localhost:3001` with realistic, type-safe responses.

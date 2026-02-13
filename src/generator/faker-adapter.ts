@@ -38,8 +38,21 @@ export function generateFromSchema(
         return faker.helpers.arrayElement(schema.enum);
     }
 
-    // allOf/oneOf/anyOf
+    // allOf - merge all schemas
     if (schema.allOf) {
+        let merged: Record<string, unknown> = {};
+        for (const subSchema of schema.allOf) {
+            const result = generateFromSchema(subSchema, context);
+            if (result && typeof result === 'object' && !Array.isArray(result)) {
+                merged = { ...merged, ...(result as Record<string, unknown>) };
+            }
+        }
+
+        if (Object.keys(merged).length > 0) {
+            return merged;
+        }
+
+        // Fallback
         return generateFromSchema(schema.allOf[0], context);
     }
     if (schema.oneOf) {

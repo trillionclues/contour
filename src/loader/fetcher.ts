@@ -40,6 +40,14 @@ export async function fetchFromURL(url: string): Promise<OpenAPISpec> {
             responseType: 'text',
         });
 
+        const contentType = response.headers['content-type'];
+        if (contentType && (contentType.includes('text/html') || contentType.includes('application/xhtml+xml'))) {
+            logger.info('> Received HTML content, attempting to extract spec URL...');
+            const extractedUrl = await extractSpecFromSwaggerUI(url, response.data);
+            logger.info(`✓ Found spec URL: ${extractedUrl}`);
+            return fetchFromURL(extractedUrl);
+        }
+
         const spec = await parseSpec(response.data, url);
 
         await cacheSpec(cacheKey, url, spec);
@@ -71,7 +79,7 @@ function isSwaggerUIPage(url: string): boolean {
 }
 
 // Extract actual OpenAPI spec URL from Swagger UI page
-async function extractSpecFromSwaggerUI(swaggerUIUrl: string): Promise<string> {
+async function extractSpecFromSwaggerUI(swaggerUIUrl: string, htmlContent?: string): Promise<string> {
     const baseUrl = getBaseUrl(swaggerUIUrl);
 
     const specUrl = await tryCommonSpecLocations(baseUrl);
@@ -79,7 +87,7 @@ async function extractSpecFromSwaggerUI(swaggerUIUrl: string): Promise<string> {
         return specUrl;
     }
 
-    const parsedUrl = await parseSpecUrlFromSwaggerUI(swaggerUIUrl, baseUrl);
+    const parsedUrl = await parseSpecUrlFromSwaggerUI(swaggerUIUrl, baseUrl, htmlContent);
     if (parsedUrl) {
         return parsedUrl;
     }
@@ -151,19 +159,25 @@ async function tryCommonSpecLocations(baseUrl: string): Promise<string | null> {
 
 async function parseSpecUrlFromSwaggerUI(
     swaggerUIUrl: string,
-    baseUrl: string
+    baseUrl: string,
+    htmlContent?: string
 ): Promise<string | null> {
     try {
         logger.debug('Parsing Swagger UI HTML for spec URL...');
 
-        const response = await axios.get(swaggerUIUrl, {
-            timeout: TIMEOUT,
-            headers: {
-                'User-Agent': 'Contour/1.0.0',
-            },
-        });
+        let html = htmlContent;
 
-        const html = response.data;
+        if (!html) {
+            const response = await axios.get(swaggerUIUrl, {
+                timeout: TIMEOUT,
+                headers: {
+                    'User-Agent': 'Contour/1.0.0',
+                },
+            });
+            html = response.data;
+        }
+
+        if (!html) return null;
 
         const patterns = [
             // Pattern 1: url: "..." in JavaScript

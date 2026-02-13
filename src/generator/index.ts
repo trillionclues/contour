@@ -60,12 +60,18 @@ export function generateForEndpoint(
         return {};
     }
 
-    const jsonContent = content['application/json'] as { schema?: Schema } | undefined;
-    if (!jsonContent?.schema) {
+    // Try application/json first, then * / *, then take the first available
+    const contentType =
+        content['application/json'] ? 'application/json' :
+            content['*/*'] ? '*/*' :
+                Object.keys(content)[0];
+
+    const schemaContent = content[contentType] as { schema?: Schema } | undefined;
+    if (!schemaContent?.schema) {
         return {};
     }
 
-    return generateData(jsonContent.schema);
+    return generateData(schemaContent.schema);
 }
 
 export { generateFromSchema } from './faker-adapter.js';

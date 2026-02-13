@@ -1,23 +1,3 @@
-A few days ago I shared Contour — a CLI tool that spins up mock APIs from your OpenAPI spec. Since then, I've shipped the first stable release.
-
-What's in v1.0.1:
-
-> Smart data generation with matching field names to produce realistic values using FakerJs heuristics
-
-> Request body validation and POST/PUT/PATCH payloads are validated against your schema
-
-> x-contour extension tags control array sizes, per-route latency, and deterministic seeding directly in your spec
-
-> Stateful CRUD implementation ensures stateful flag gives you in-memory POST → GET → DELETE without a database
-
-> Chaos testing with error-rate and delay to simulate flaky backends
-
-NPM: https://lnkd.in/dwqU6vqp
-GitHub: https://lnkd.in/dW498xQA
-
-Would appreciate your feedback — what features would make this more useful for your current workflow?
-
-#OpenSource #OpenAPI #BuildInPublic #ContourCLI
 
 
 <!--   -->
