@@ -16,5 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Express server with CORS support
 - Stateful and deterministic modes
 - Latency and error simulation
+- Auth simulation
+- Request logger
+- Error handler
+- Health check
+- 404 handler
 
 [Unreleased]: https://github.com/trillionclues/contour/commits/main

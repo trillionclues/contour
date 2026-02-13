@@ -1,6 +1,6 @@
 # Contributing to Contour
 
-Thanks for your interest in contributing!
+Wagwan & thanks for your interest in contributing!
 
 ## Quick Start
 
@@ -18,7 +18,7 @@ pnpm test
 pnpm run dev          # Watch mode
 pnpm run lint         # Check code style
 pnpm run typecheck    # Type checking
-pnpm test             # Run tests
+pnpm test             # Run tests (compulsory abeg)
 ```
 
 ## Pull Requests
@@ -36,11 +36,12 @@ We use [Conventional Commits](https://www.conventionalcommits.org/):
 feat(scope): add new feature
 fix(scope): resolve bug
 docs: update documentation
+chore: update dependencies (careful son!)
 ```
 
 ## Code of Conduct
 
-Be respectful and constructive. We're all here to build something great.
+Be respectful and constructive. Just here to build something great.
 
 ---
 
