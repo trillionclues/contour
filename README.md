@@ -33,6 +33,12 @@ contour start https://example-openapi.com/api.json  # remote URL
 
 Your mock API is running at `http://localhost:3001` with realistic, type-safe responses.
 
+#### Sample Remote URL
+```bash
+https://petstore.swagger.io/v2/swagger.json (JSON format)
+https://petstore.swagger.io/v2/swagger.yaml (YAML format)
+```
+
 ### Options
 
 ```
