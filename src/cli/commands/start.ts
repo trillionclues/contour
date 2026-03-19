@@ -12,11 +12,25 @@ import { ContourError } from '../../utils/errors.js';
 interface StartOptions {
     port?: string;
     stateful?: boolean;
+    host?: string;
     deterministic?: boolean;
     delay?: string;
     errorRate?: string;
     requireAuth?: boolean;
 }
+
+// Accept 0.0.0.0, 127.0.0.1, or any valid IPv4/IPv6/hostname
+function parseHost(value: string): string {
+    const ipv4 = /^(\d{1,3}\.){3}\d{1,3}$/
+    const ipv6 = /^[0-9a-fA-F:]+$/
+
+    if (value === 'localhost') return value
+    if (ipv4.test(value)) return value
+    if (ipv6.test(value)) return value
+
+    throw new Error('Host must be a valid IP address (e.g., 0.0.0.0 or 127.0.0.1)')
+}
+
 
 function parseDelay(value: string): [number, number] {
     const match = value.match(/^(\d+)-(\d+)$/);
@@ -60,6 +74,7 @@ export function createStartCommand(): Command {
         .argument('<spec>', 'Path to OpenAPI spec file or URL')
         .description('Start the mock API server')
         .option('-p, --port <number>', 'Port number', '3001')
+        .option('-H, --host <address>', 'Host address to bind to', '0.0.0.0')
         .option('--stateful', 'Enable stateful mode (persist changes)')
         .option('--deterministic', 'Use deterministic data generation')
         .option('--delay <range>', 'Simulate latency (e.g., 200-500)')
@@ -74,6 +89,7 @@ export function createStartCommand(): Command {
                     ...DEFAULT_CONFIG,
                     specPath,
                     port: options.port ? parsePort(options.port) : DEFAULT_CONFIG.port,
+                    host: options.host ? parseHost(options.host) : (process.env.HOST_IP_ADDRESS ?? DEFAULT_CONFIG.host),
                     stateful: options.stateful ?? false,
                     deterministic: options.deterministic ?? false,
                     delay: options.delay ? parseDelay(options.delay) : null,
