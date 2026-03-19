@@ -51,6 +51,7 @@ contour start <spec> [options]
   --delay <min-max>         Simulate latency, e.g. --delay 200-500
   --error-rate <percent>    Simulate failures, e.g. --error-rate 10
   --require-auth            Require Bearer token
+  -H, --host <address>      Host address to bind to (default: 0.0.0.0)
 ```
 
 ### Examples
@@ -59,6 +60,7 @@ contour start <spec> [options]
 contour start api.yaml --port 4000 --delay 100-300
 contour start api.yaml --deterministic --stateful
 contour start api.yaml --error-rate 15 --delay 500-2000
+contour start api.yaml --host [IP_ADDRESS]
 ```
 
 ## Features

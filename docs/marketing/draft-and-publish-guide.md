@@ -18,8 +18,23 @@ Request logger middleware	✅ Complete	src/server/middleware/logger.ts
 Error handling (custom errors, 404)	✅ Complete	src/server/middleware/error-handler.ts
 Deterministic mode (--deterministic)	✅ Complete	src/generator/index.ts
 CI/CD workflows	✅ Complete	.github/workflows/
+curl -s http://127.0.0.1:3001/pet/findByStatus="pending" | jq '.'
 
-
+<!--  -->
+contour/
+├── docs/
+│   ├── 00-PROJECT.md           # High-level overview
+│   ├── 01-ARCHITECTURE.md      # System design
+│   ├── 02-DEVELOPMENT.md       # Setup & workflow
+│   ├── 03-API-INTEGRATION.md   # OpenAPI parsing
+│   ├── 04-DATA-GENERATION.md   # Realistic data strategy
+│   ├── 05-TESTING.md           # Test strategy
+│   ├── 06-SECURITY.md          # Security & guardrails
+│   ├── 07-GIT-WORKFLOW.md      # Git rules & PR process
+│   └── 08-DEPLOYMENT.md        # Release process
+├── README.md                    # User-facing docs
+├── CONTRIBUTING.md              # Contributor guide
+└── CHANGELOG.md                 # Version history
 
 <!--  -->
 How Stateful Mode Works

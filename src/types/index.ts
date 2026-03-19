@@ -133,7 +133,7 @@ export interface Config {
 
 export const DEFAULT_CONFIG: Config = {
     port: 3001,
-    host: '127.0.0.1',
+    host: '0.0.0.0',
     cors: true,
     stateful: false,
     deterministic: false,
