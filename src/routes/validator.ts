@@ -5,6 +5,7 @@ import { createRequire } from 'module';
 import type { Operation, OpenAPISpec, Schema } from '../types/index.js';
 import { resolveSchema } from '../generator/schema-parser.js';
 import { logger } from '../utils/logger.js';
+import { resolveJsonContent } from '../utils/content-type.js';
 
 // createRequire for CJS-only packages
 const require = createRequire(import.meta.url);
@@ -32,7 +33,7 @@ export function validateRequestBody(
         return { valid: true };
     }
 
-    const jsonContent = requestBody.content?.['application/json'];
+    const jsonContent = resolveJsonContent(requestBody.content);
     if (!jsonContent?.schema) {
         return { valid: true };
     }

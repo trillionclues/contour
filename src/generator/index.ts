@@ -3,6 +3,7 @@
 import type { OpenAPISpec, Schema, GenerationContext } from '../types/index.js';
 import { initGenerator, generateFromSchema } from './faker-adapter.js';
 import { resolveSchema, clearSchemaCache } from './schema-parser.js';
+import { resolveJsonContent } from '../utils/content-type.js';
 
 export interface GeneratorOptions {
     deterministic?: boolean;
@@ -60,13 +61,8 @@ export function generateForEndpoint(
         return {};
     }
 
-    // Try application/json first, then * / *, then take the first available
-    const contentType =
-        content['application/json'] ? 'application/json' :
-            content['*/*'] ? '*/*' :
-                Object.keys(content)[0];
-
-    const schemaContent = content[contentType] as { schema?: Schema } | undefined;
+    // Try application/json first, then */* , then take the first available
+    const schemaContent = resolveJsonContent(content as Record<string, { schema?: Schema }>);
     if (!schemaContent?.schema) {
         return {};
     }

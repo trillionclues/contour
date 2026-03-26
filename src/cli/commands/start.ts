@@ -115,7 +115,8 @@ export function createStartCommand(): Command {
                 process.on('SIGINT', () => {
                     console.log();
                     server.close(() => {
-                        console.log('Server stopped');
+                        // add icon beside server stopped message
+                        console.log('👋 Server stopped gracefully!');
                         process.exit(0);
                     });
                 });
