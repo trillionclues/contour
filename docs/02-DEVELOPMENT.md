@@ -360,11 +360,11 @@ pnpm run test:coverage
 npm run dev start examples/petstore.yaml
 
 # Terminal 2: Test requests
-curl http://localhost:3001/users
+curl http://0.0.0.0:3001/users
 
 # or
 pnpm run dev start examples/petstore.yaml
-curl http://localhost:3001/users
+curl http://0.0.0.0:3001/users
 ```
 
 ---

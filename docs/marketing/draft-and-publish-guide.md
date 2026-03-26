@@ -53,6 +53,10 @@ It's basically a Map<string, Array<object>> that acts as a per-resource data sto
    .npmrc: echo "//registry.npmjs.org/:_authToken=npm_aqlpeOSnZm....." > ~/.npmrc
 7. npm publish --access public
 
+<!-- to run in development -->
+cd /Users/user/dev-projects/contour && npx tsx src/cli/index.ts start /tmp/test-spec.json -p 30
+curl -s http://0.0.0.0:3001/api/v6/services/usermanagement/verifyuserbyphonenumber/3492755e485 | jq
+
 // Use the built-in npm version command to publish new changes
 # Patch release (1.0.0 → 1.0.1) — bug fixes
 npm version patch

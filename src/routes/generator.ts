@@ -9,6 +9,7 @@ import { initGenerator } from '../generator/faker-adapter.js';
 import { validateRequestBody } from './validator.js';
 import { stateManager } from '../state/index.js';
 import { logger } from '../utils/logger.js';
+import { resolveJsonContent } from '../utils/content-type.js';
 import { faker } from '@faker-js/faker';
 
 const HTTP_METHODS = ['get', 'post', 'put', 'patch', 'delete'] as const;
@@ -79,7 +80,7 @@ function createHandler(
                 return res.status(204).send();
             }
 
-            const content = response.content?.['application/json'];
+            const content = resolveJsonContent(response.content);
 
             // resolve schema
             const schema = content?.schema ? resolveSchema(content.schema, spec) : null;

@@ -4,7 +4,7 @@ info:
   description: Sample API for testing Contour mock server
   version: 1.0.0
 servers:
-  - url: http://localhost:3001
+  - url: http://0.0.0.0:3001
 paths:
   /users:
     get:

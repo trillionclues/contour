@@ -32,7 +32,7 @@ contour start https://example-openapi.com/api.json  # remote URL
 contour start curl -s http://127.0.0.1:3001/pet/findByStatus?status=pending | jq '.'   # Swagger UI page
 ```
 
-Your mock API is running at `http://localhost:3001` with realistic, type-safe responses.
+Your mock API is running at `http://0.0.0.0:3001` with realistic, type-safe responses.
 
 #### Sample Remote URL
 ```bash
@@ -97,7 +97,7 @@ contour start api.yaml --host [IP_ADDRESS]
 ```js
 // vite.config.js
 export default defineConfig({
-  server: { proxy: { '/api': 'http://localhost:3001' } }
+  server: { proxy: { '/api': 'http://0.0.0.0:3001' } }
 });
 ```
 
