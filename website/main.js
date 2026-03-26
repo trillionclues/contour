@@ -178,7 +178,7 @@ if (terminalBody) {
         addLine('<span class="success">✓</span> <span class="bold">Mock server running</span>');
         await wait(PAUSE_SHORT);
         addLine('');
-        addLine(' <span class="dim">→</span> Local: <span class="cyan">http://localhost:3001</span>');
+        addLine(' <span class="dim">→</span> Local: <span class="cyan">http://0.0.0.0:3001</span>');
         await wait(PAUSE_SHORT);
         addLine(' <span class="dim">→</span> Endpoints: <span class="yellow">8</span>');
         await wait(PAUSE_SHORT);
@@ -188,7 +188,7 @@ if (terminalBody) {
         addLine('');
 
         // 3. Curl request
-        addLine('<span class="prompt">$</span> <span class="cmd">curl http://localhost:3001/users</span>');
+        addLine('<span class="prompt">$</span> <span class="cmd">curl http://0.0.0.0:3001/users</span>');
         await wait(PAUSE_LONG);
 
         // 4. JSON Response
