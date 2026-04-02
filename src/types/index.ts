@@ -46,6 +46,7 @@ export interface Operation {
     'x-contour-count'?: number;
     'x-contour-delay'?: number;
     'x-contour-deterministic'?: boolean;
+    'x-strict'?: boolean;
 }
 
 export interface Parameter {
@@ -129,6 +130,8 @@ export interface Config {
     delay: [number, number] | null;
     errorRate: number;
     specPath: string;
+    strictValidation: boolean;
+    strictLevel: 'hard' | 'soft';
 }
 
 export const DEFAULT_CONFIG: Config = {
@@ -141,6 +144,8 @@ export const DEFAULT_CONFIG: Config = {
     delay: null,
     errorRate: 0,
     specPath: '',
+    strictValidation: false,
+    strictLevel: 'hard',
 };
 
 // cache types

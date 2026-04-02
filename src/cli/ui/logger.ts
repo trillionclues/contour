@@ -32,6 +32,10 @@ export function displayServerStarted(config: Config, endpoints: number): void {
     if (config.requireAuth) {
         console.log(`  ${chalk.gray('→')} Auth:     ${chalk.yellow('Required')}`);
     }
+    if (config.strictValidation) {
+        const levelLabel = config.strictLevel === 'soft' ? 'Soft (warn)' : 'Hard (reject)';
+        console.log(`  ${chalk.gray('→')} Strict:   ${chalk.magenta(levelLabel)}`);
+    }
     console.log();
     console.log(chalk.gray('  Press Ctrl+C to stop'));
     console.log();

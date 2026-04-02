@@ -17,6 +17,8 @@ interface StartOptions {
     delay?: string;
     errorRate?: string;
     requireAuth?: boolean;
+    strictValidation?: boolean;
+    strictLevel?: string;
 }
 
 // Accept 0.0.0.0, 127.0.0.1, or any valid IPv4/IPv6/hostname
@@ -80,6 +82,8 @@ export function createStartCommand(): Command {
         .option('--delay <range>', 'Simulate latency (e.g., 200-500)')
         .option('--error-rate <percent>', 'Simulate random errors (0-100)')
         .option('--require-auth', 'Require Bearer token for requests')
+        .option('--strict-validation', 'Enable strict request validation against the OpenAPI schema')
+        .option('--strict-level <mode>', 'Validation strictness: hard (reject) or soft (warn)', 'hard')
         .action(async (specPath: string, options: StartOptions) => {
             displayBanner();
 
@@ -95,6 +99,8 @@ export function createStartCommand(): Command {
                     delay: options.delay ? parseDelay(options.delay) : null,
                     errorRate: options.errorRate ? parseErrorRate(options.errorRate) : 0,
                     requireAuth: options.requireAuth ?? false,
+                    strictValidation: options.strictValidation ?? false,
+                    strictLevel: (options.strictLevel === 'soft' ? 'soft' : 'hard') as Config['strictLevel'],
                 };
 
                 // Load spec

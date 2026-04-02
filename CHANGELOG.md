@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2026-04-02
+
+### Added
+
+- Added support for strict validation of request bodies and parameters
+- Added `strictValidation: boolean` and `strictLevel: 'hard' | 'soft'` to the Config interface
+- Introduced `x-strict` extension extension for per-endpoint opt-in
+- Schema validators are cached by JSON hash - no CPU re-compilation per request
+
 ## [1.2.1] - 2026-03-26
 
 ### Fixed
