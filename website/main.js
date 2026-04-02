@@ -167,7 +167,7 @@ if (terminalBody) {
         await wait(PAUSE_SHORT);
 
         // 2. Start server
-        addLine('<span class="prompt">$</span> <span class="cmd">contour start openapi.yaml</span>');
+        addLine('<span class="prompt">$</span> <span class="cmd">contour start openapi.yaml --strict-validation</span>');
         await wait(PAUSE_LONG);
         addLine('');
         addLine('<span class="cyan bold"> ⬡ Contour</span>');
@@ -181,6 +181,8 @@ if (terminalBody) {
         addLine(' <span class="dim">→</span> Local: <span class="cyan">http://0.0.0.0:3001</span>');
         await wait(PAUSE_SHORT);
         addLine(' <span class="dim">→</span> Endpoints: <span class="yellow">8</span>');
+        await wait(PAUSE_SHORT);
+        addLine(' <span class="dim">→</span> Strict:   <span class="magenta">Hard (reject)</span>');
         await wait(PAUSE_SHORT);
         addLine('');
         addLine('<span class="dim"> Press Ctrl+C to stop</span>');

@@ -158,7 +158,7 @@
                         <span class="feature-num">04</span>
                     </div>
                     <h3>Request Validation</h3>
-                    <p>POST, PUT, and PATCH bodies are validated against your schema. Invalid payloads get a proper
+                    <p>Enable strict mode to validate all request bodies and parameters against your schema. Invalid payloads get a proper
                         <code>400</code> with error details.
                     </p>
                 </div>
@@ -190,7 +190,7 @@
                         <span class="feature-num">06</span>
                     </div>
                     <h3>x-contour Extensions</h3>
-                    <p>Control array sizes, per-route delays, and deterministic seeding directly in your OpenAPI spec.
+                    <p>Control array sizes, per-route delays, deterministic seeding, and strict validation directly in your OpenAPI spec.
                         Your contract, your rules.</p>
                 </div>
             </div>
@@ -345,6 +345,10 @@
                         <tr>
                             <td><code>contour start --error-rate 10</code></td>
                             <td>Random 500 failures</td>
+                        </tr>
+                        <tr>
+                            <td><code>contour start --strict-validation</code></td>
+                            <td>Strict request validation</td>
                         </tr>
                         <tr>
                             <td><code>contour cache list</code></td>

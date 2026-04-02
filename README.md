@@ -52,6 +52,8 @@ contour start <spec> [options]
   --error-rate <percent>    Simulate failures, e.g. --error-rate 10
   --require-auth            Require Bearer token
   -H, --host <address>      Host address to bind to (default: 0.0.0.0)
+  --strict-validation       Enable strict request validation against the OpenAPI schema
+  --strict-level <mode>     Validation strictness: hard (reject) or soft (warn)
 ```
 
 ### Examples
@@ -67,8 +69,8 @@ contour start api.yaml --host [IP_ADDRESS]
 
 - **Smart data generation** — property-name heuristics produce real names, emails, addresses
 - **Stateful mode** — POST creates, GET retrieves, DELETE removes — full CRUD without a database
-- **Request validation** — validates POST/PUT/PATCH bodies against your schema, returns `400` with details
-- **`x-contour-*` extensions** — fine-tune per-endpoint behavior directly in your spec:
+- **Request validation** — Enable `--strict-validation` to validate all request bodies and parameters against your schema, returning `400` with details for invalid payloads.
+- **`x-contour-*` / `x-strict` extensions** — fine-tune per-endpoint behavior directly in your spec:
 
 ```yaml
 /users:
@@ -76,6 +78,7 @@ contour start api.yaml --host [IP_ADDRESS]
     x-contour-count: 20              # array size override
     x-contour-delay: 1000            # per-route latency (ms)
     x-contour-deterministic: true    # consistent data per endpoint
+    x-strict: true                   # strictly validate this endpoint
 ```
 
 - **Spec caching** — `contour cache list` / `contour cache clear`

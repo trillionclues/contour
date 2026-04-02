@@ -6,7 +6,7 @@ import type { OpenAPISpec, Operation, Config } from '../types/index.js';
 import { generateData, initDataGenerator } from '../generator/index.js';
 import { resolveSchema } from '../generator/schema-parser.js';
 import { initGenerator } from '../generator/faker-adapter.js';
-import { validateRequestBody } from './validator.js';
+import { validateRequestBody, validateParameters } from './validator.js';
 import { stateManager } from '../state/index.js';
 import { logger } from '../utils/logger.js';
 import { resolveJsonContent } from '../utils/content-type.js';
@@ -73,6 +73,48 @@ function createHandler(
                 initGenerator(seed);
             }
 
+            // ── Strict validation gate ──
+            // Fires when the global flag is on OR the per-endpoint x-strict extension is set.
+            const shouldValidate = config.strictValidation || operation['x-strict'] === true;
+
+            if (shouldValidate) {
+                const paramResult = validateParameters(req, operation, spec);
+                const bodyResult = validateRequestBody(req.body, operation, spec);
+
+                const allErrors = [
+                    ...(paramResult.errors ?? []),
+                    ...(bodyResult.errors ?? []),
+                ];
+
+                if (allErrors.length > 0) {
+                    const level = config.strictValidation ? config.strictLevel : 'hard';
+
+                    if (level === 'hard') {
+                        return res.status(400).json({
+                            error: 'Validation failed',
+                            message: 'Request does not conform to the OpenAPI specification',
+                            details: allErrors,
+                        });
+                    }
+
+                    // soft mode — log warnings, continue to response generation
+                    for (const err of allErrors) {
+                        logger.warn(`[strict:soft] ${method.toUpperCase()} ${path} — ${err.field}: ${err.message}`);
+                    }
+                }
+            } else {
+                // Legacy behaviour: validate body on write methods only (non-strict)
+                if ((method === 'post' || method === 'put' || method === 'patch') && req.body && Object.keys(req.body).length > 0) {
+                    const validation = validateRequestBody(req.body, operation, spec);
+                    if (!validation.valid) {
+                        return res.status(400).json({
+                            error: 'Validation failed',
+                            details: validation.errors,
+                        });
+                    }
+                }
+            }
+
             const successCode = method === 'post' ? '201' : '200';
             const response = operation.responses[successCode] || operation.responses['200'] || operation.responses['default'];
 
@@ -84,17 +126,6 @@ function createHandler(
 
             // resolve schema
             const schema = content?.schema ? resolveSchema(content.schema, spec) : null;
-
-            // request body validation for write methods
-            if ((method === 'post' || method === 'put' || method === 'patch') && req.body && Object.keys(req.body).length > 0) {
-                const validation = validateRequestBody(req.body, operation, spec);
-                if (!validation.valid) {
-                    return res.status(400).json({
-                        error: 'Validation failed',
-                        details: validation.errors,
-                    });
-                }
-            }
 
             // stateful mode
             if (config.stateful) {
